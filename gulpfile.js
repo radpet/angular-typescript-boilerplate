@@ -3,7 +3,6 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var ts = require('gulp-typescript');
 var shell = require('gulp-shell');
-var merge = require('merge2');
 var watch = require('gulp-watch');
 var karma = require('karma').Server;
 
@@ -11,7 +10,8 @@ var paths = {
   src: 'src/',
   test: 'test/',
   jspm_packages: 'jspm_packages',
-  build: 'build/'
+  build: 'build/',
+  buildTest: 'buildTest/'
 };
 
 var tsSources = ts.createProject({
@@ -25,7 +25,7 @@ var tsSources = ts.createProject({
 gulp.task('dev', function (callback) {
   del.sync(paths.build + '/*');
   gulp.src([paths.src + '/index.html', 'config.js']).pipe(gulp.dest(paths.build));
-  runSequence('ts-watch', 'html', 'html-watch', callback);
+  runSequence('ts','ts-watch', 'html', 'html-watch', callback);
 });
 
 gulp.task('ts', function () {
@@ -36,9 +36,13 @@ gulp.task('ts', function () {
 
 gulp.task('tsTest', function () {
   var typescripts = paths.test + '/**/*.ts';
-  return gulp.src(typescripts).pipe(ts(tsTests)).pipe(gulp.dest(paths.test));
+  return gulp.src(typescripts).pipe(ts(tsSources)).pipe(gulp.dest(paths.buildTest));
 });
 
+gulp.task('tsTest-watch',['tsTest'],function(){
+  var typescripts = paths.test + '/**/*.ts';
+  gulp.watch(typescripts, ['tsTest']);
+});
 
 gulp.task('ts-watch', ['ts'], function () {
   var typescripts = paths.src + '/**/*.ts';
@@ -53,12 +57,17 @@ gulp.task('html', function () {
 
 gulp.task('html-watch', function () {
   var htmlFiles = paths.src + '/**/*.html';
-  gulp.watch(htmlFiles, ['html']);
+  watch(htmlFiles, ['html']);
 });
 
-gulp.task('test', function (done) {
+gulp.task('test',function(callback){
+  del.sync(paths.buildTest + '/*');
+  runSequence('tsTest-watch','ts-watch','karma');
+});
+
+gulp.task('karma', function (done) {
   new karma({
-    configFile: __dirname + '/karma.conf.js',
+    configFile: __dirname + '/karma2.conf.js',
     singleRun: false
   }, done).start();
 });

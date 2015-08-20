@@ -16,37 +16,19 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     jspm: {
       config: 'config.js',
-      loadFiles: ['test/**/*.ts', 'test/**/*.html'],
-      serveFiles: ['src/**/*']
+      loadFiles: ['buildTest/**/*.js', 'test/**/*.html'],
+      serveFiles: ['build/**/*']
     },
     proxies: {
       '/jspm_packages': '/base/jspm_packages',
-      '/test/': '/base/test/',
-      '/': '/base/src/',
-      '*.ts':'/.js'
+      '/buildTest': '/base/buildTest/',
+      '/': '/base/build/'
     },
     // list of files to exclude
     exclude: [],
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/*.ts': ['typescript'],
-      'test/**/*.ts': ['typescript'],
       'test/**/*.html': ['html2js']
-    },
-    typescriptPreprocessor: {
-      // options passed to the typescript compiler
-      options: {
-        sourceMap: false, // (optional) Generates corresponding .map file.
-        target: 'ES5', // (optional) Specify ECMAScript target version: 'ES3' (default), or 'ES5'
-        module: 'system' // (optional) Specify module code generation: 'commonjs' or 'amd'
-      },
-      typings: [
-        'typings/tsd.d.ts'
-      ],
-      transformPath: function (path) {
-        //var newPath = path.replace('.ts', '.js');
-        return path.replace(/.ts/,'.js');
-      }
     },
     // test results reporter to use
     // possible values: 'dots', 'progress'

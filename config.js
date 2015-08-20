@@ -2,7 +2,7 @@ System.config({
   "baseURL": "/",
   "transpiler": "typescript",
   "paths": {
-    "*": "*.js",
+   "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js",
   },
