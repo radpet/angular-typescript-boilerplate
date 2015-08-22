@@ -19,6 +19,7 @@
     "typescript": "^1.5.3"
   },
   "devDependencies": {
+    "gulp-plumber": "^1.0.1",
     "karma-beep-reporter": "^0.1.4",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.5.0",
