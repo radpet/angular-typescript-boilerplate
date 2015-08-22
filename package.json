@@ -1,0 +1,68 @@
+{
+  "name": "angular-typescript-boilerplate",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test",
+    "packages": "jspm_packages"
+  },
+  "dependencies": {
+    "del": "^1.2.1",
+    "gulp": "^3.9.0",
+    "gulp-shell": "^0.4.2",
+    "gulp-typescript": "^2.8.0",
+    "gulp-watch": "^4.3.4",
+    "http-server": "^0.8.0",
+    "jspm": "^0.15.7",
+    "merge2": "^0.3.6",
+    "run-sequence": "^1.1.2",
+    "typescript": "^1.5.3"
+  },
+  "devDependencies": {
+    "gulp-plumber": "^1.0.1",
+    "karma-beep-reporter": "^0.1.4",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^0.5.0",
+    "karma-fixture": "^0.2.5",
+    "karma-html2js-preprocessor": "^0.1.0",
+    "karma-jspm": "^2.0.1-beta.2",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "karma-sinon-chai": "^1.0.0",
+    "karma-typescript-preprocessor": "0.0.19",
+    "mocha": "^2.2.5",
+    "tsd": "^0.6.3",
+    "typescript": "^1.5.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radpet/angular-typescript-boilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/radpet/angular-typescript-boilerplate/issues"
+  },
+  "homepage": "https://github.com/radpet/angular-typescript-boilerplate",
+  "jspm": {
+    "directories": {
+      "test": "test"
+    },
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.4.3",
+      "angular2": "npm:angular2@^2.0.0-alpha.34",
+      "es6-shim": "github:es-shims/es6-shim@^0.33.0",
+      "lodash": "npm:lodash@^3.10.1",
+      "reflect-metadata": "npm:reflect-metadata@^0.1.0",
+      "text": "github:systemjs/plugin-text@^0.0.2",
+      "zone.js": "npm:zone.js@^0.5.2"
+    },
+    "devDependencies": {
+      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
+    }
+  }
+}

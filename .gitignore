@@ -1,0 +1,7 @@
+.idea/
+/node_modules/
+/build/
+/reports/
+/jspm_packages/
+/typings/
+/compiled-tests/
