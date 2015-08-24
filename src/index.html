@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular-Typescript-boilerplate</title>
+    <script src="jspm_packages/es6-module-loader.js"></script>
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    System.transpiler = 'typescript';
+    System.config({
+        "paths": {
+            "*": "*.js"
+        }
+    });
+
+    System.import('main');
+</script>
+
+<my-app>
+
+</my-app>
+
+</body>
+</html>

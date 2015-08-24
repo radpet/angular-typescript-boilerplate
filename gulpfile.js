@@ -65,13 +65,13 @@ gulp.task('html-watch', function () {
 });
 
 gulp.task('test', function (callback) {
-  del.sync(paths.buildTest + '/*');
+  del.sync(paths.compiledTests + '/*');
   runSequence('tsTest-watch', 'ts-watch', 'karma');
 });
 
 gulp.task('karma', function (done) {
   new karma({
-    configFile: __dirname + '/karma2.conf.js',
+    configFile: __dirname + '/karma.conf.js',
     singleRun: false
   }, done).start();
 });
