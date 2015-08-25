@@ -14,8 +14,8 @@ var paths = {
   jspm_packages: 'jspm_packages',
   build: 'build/',
   compiledTests: 'compiled-tests/',
-  definitions: '/definitions',
-  typings: 'typings',
+  definitions: 'definitions/',
+  typings: 'typings/',
 };
 
 var tsSources = ts.createProject({
@@ -47,9 +47,10 @@ gulp.task('ts-watch', ['ts'], function () {
 });
 
 gulp.task('tsTest', function () {
-  var typescripts = paths.test + '/**/*.ts';
-  var typings = paths.typings + '/**/*.d.ts';
-  var typescriptTypings = paths.build + '/**/*.d.ts';
+  var typescripts = paths.test + '**/*.ts';
+  var typings = paths.typings + '**/*.d.ts';
+  var typescriptTypings = paths.build + '**/*.d.ts';
+  console.log(gulp.src(typescriptTypings));
   var tsResult = gulp.src([typescripts,typings,typescriptTypings]).pipe(ts(tsSources));
   return tsResult.js.pipe(gulp.dest(paths.compiledTests));
 });
