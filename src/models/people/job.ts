@@ -1,3 +1,4 @@
+
 export class Job{
     name:string;
     height:number;
@@ -7,6 +8,6 @@ export class Job{
     }
 
     getName():string{
-        return this.name+1;
+        return this.name;
     }
 }

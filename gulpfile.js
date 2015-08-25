@@ -6,6 +6,7 @@ var watch = require('gulp-watch');
 var plumber = require('gulp-plumber');
 var merge = require('merge2');
 var karma = require('karma').Server;
+var sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
   src: 'src/',
@@ -13,27 +14,31 @@ var paths = {
   jspm_packages: 'jspm_packages',
   build: 'build/',
   compiledTests: 'compiled-tests/',
-  definitions: '/definitions'
+  definitions: '/definitions',
+  typings: 'typings',
 };
 
 var tsSources = ts.createProject({
   "emitDecoratorMetadata": true,
   "experimentalDecorators": true,
-  "module": "commonjs",
+  "module": "system",
   "target": "es5",
-  "sourcemap": true
+  "sourcemap": true,
+  "noImplicitAny": false,
+  "declarationFiles": true,
 });
 
 gulp.task('dev', function (callback) {
   del.sync(paths.build + '/*');
   gulp.src([paths.src + '/index.html', 'config.js']).pipe(gulp.dest(paths.build));
-  runSequence('ts', 'ts-watch', 'html', 'html-watch', callback);
+  runSequence('ts-watch', 'html', 'html-watch', callback);
 });
 
 gulp.task('ts', function () {
   var typescripts = paths.src + '/**/*.ts';
-  var tsResult = gulp.src(typescripts).pipe(ts(tsSources));
-  return merge([tsResult.js.pipe(gulp.dest(paths.build)), tsResult.dts.pipe(gulp.dest(paths.definitions))]);
+  var typings = paths.typings + '/**/*.d.ts';
+  var tsResult = gulp.src([typescripts,typings]).pipe(sourcemaps.init()).pipe(ts(tsSources));
+  return merge([tsResult.js.pipe(sourcemaps.write()).pipe(gulp.dest(paths.build)), tsResult.dts.pipe(gulp.dest(paths.build))]);
 });
 
 gulp.task('ts-watch', ['ts'], function () {
@@ -43,13 +48,14 @@ gulp.task('ts-watch', ['ts'], function () {
 
 gulp.task('tsTest', function () {
   var typescripts = paths.test + '/**/*.ts';
-  var tsResult = gulp.src(typescripts).pipe(ts(tsSources));
+  var typings = paths.typings + '/**/*.d.ts';
+  var typescriptTypings = paths.build + '/**/*.d.ts';
+  var tsResult = gulp.src([typescripts,typings,typescriptTypings]).pipe(ts(tsSources));
   return tsResult.js.pipe(gulp.dest(paths.compiledTests));
 });
 
 gulp.task('tsTest-watch', ['tsTest'], function () {
   var typescripts = paths.test + '/**/*.ts';
-
   gulp.watch(typescripts, ['tsTest']);
 });
 
