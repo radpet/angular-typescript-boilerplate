@@ -3,10 +3,11 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var ts = require('gulp-typescript');
 var watch = require('gulp-watch');
-var plumber = require('gulp-plumber');
+var plumber = require('gulp-plumber');//TODO
 var merge = require('merge2');
 var karma = require('karma').Server;
 var sourcemaps = require('gulp-sourcemaps');
+var tslint = require('gulp-tslint');
 
 var paths = {
   src: 'src/',
@@ -18,10 +19,17 @@ var paths = {
   typings: 'typings/',
 };
 
+var typings = paths.typings + '/**/*.d.ts';
+
+var typescripts = {
+  src: paths.src + '/**/*.ts',
+  test: paths.test + '/**/*.ts'
+};
+
 var tsSources = ts.createProject({
   "emitDecoratorMetadata": true,
   "experimentalDecorators": true,
-  "module": "system",
+  "module": "commonjs",
   "target": "es5",
   "sourcemap": true,
   "noImplicitAny": false,
@@ -34,30 +42,27 @@ gulp.task('dev', function (callback) {
   runSequence('ts-watch', 'html', 'html-watch', callback);
 });
 
-gulp.task('ts', function () {
-  var typescripts = paths.src + '/**/*.ts';
-  var typings = paths.typings + '/**/*.d.ts';
-  var tsResult = gulp.src([typescripts,typings]).pipe(sourcemaps.init()).pipe(ts(tsSources));
+gulp.task('tslint',function(){
+    return gulp.src(typescripts.src).pipe(tslint()).pipe(tslint.report('verbose',{ emitError: false}));
+});
+
+gulp.task('ts',['tslint'], function () {
+  var tsResult = gulp.src([typescripts.src,typings]).pipe(sourcemaps.init()).pipe(ts(tsSources));
   return merge([tsResult.js.pipe(sourcemaps.write()).pipe(gulp.dest(paths.build)), tsResult.dts.pipe(gulp.dest(paths.build))]);
 });
 
 gulp.task('ts-watch', ['ts'], function () {
-  var typescripts = paths.src + '/**/*.ts';
-  gulp.watch(typescripts, ['ts']);
+  gulp.watch(typescripts.src, ['ts']);
 });
 
 gulp.task('tsTest', function () {
-  var typescripts = paths.test + '**/*.ts';
-  var typings = paths.typings + '**/*.d.ts';
-  var typescriptTypings = paths.build + '**/*.d.ts';
-  console.log(gulp.src(typescriptTypings));
-  var tsResult = gulp.src([typescripts,typings,typescriptTypings]).pipe(ts(tsSources));
+  var typescriptTypings = paths.build + '/**/*.d.ts';
+  var tsResult = gulp.src([typescripts.test,typings,typescriptTypings]).pipe(ts(tsSources));
   return tsResult.js.pipe(gulp.dest(paths.compiledTests));
 });
 
 gulp.task('tsTest-watch', ['tsTest'], function () {
-  var typescripts = paths.test + '/**/*.ts';
-  gulp.watch(typescripts, ['tsTest']);
+  gulp.watch(typescripts.test, ['tsTest']);
 });
 
 gulp.task('html', function () {
@@ -73,7 +78,7 @@ gulp.task('html-watch', function () {
 
 gulp.task('test', function (callback) {
   del.sync(paths.compiledTests + '/*');
-  runSequence('tsTest-watch', 'ts-watch', 'karma');
+  runSequence('ts-watch','tsTest-watch', 'karma');
 });
 
 gulp.task('karma', function (done) {

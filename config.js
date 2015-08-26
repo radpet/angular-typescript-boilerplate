@@ -1,7 +1,24 @@
 System.config({
+  "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
+  "paths": {
+    "*": "*.js",
+    "github:*": "jspm_packages/github/*.js",
+    "npm:*": "jspm_packages/npm/*.js"
+  }
+});
+
+System.config({
   "map": {
     "angular": "github:angular/bower-angular@1.4.3",
     "angular2": "npm:angular2@2.0.0-alpha.34",
+    "babel": "npm:babel-core@5.8.22",
+    "babel-runtime": "npm:babel-runtime@5.8.20",
+    "core-js": "npm:core-js@0.9.18",
     "es6-shim": "github:es-shims/es6-shim@0.33.0",
     "jquery": "github:components/jquery@2.1.4",
     "lodash": "npm:lodash@3.10.1",
@@ -63,6 +80,9 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
+    "npm:babel-runtime@5.8.20": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:browserify-aes@1.0.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "buffer-xor": "npm:buffer-xor@1.0.2",
@@ -102,6 +122,11 @@ System.config({
       "is-array": "npm:is-array@1.0.1"
     },
     "npm:constants-browserify@0.0.1": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:core-js@0.9.18": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:core-util-is@1.0.1": {

@@ -1,6 +1,5 @@
-/// <reference path="../../typings/angular2/angular2.d.ts" />
-
 import {Component, View,NgFor} from 'angular2/angular2';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'jobs'

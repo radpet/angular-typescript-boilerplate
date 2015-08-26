@@ -22,7 +22,7 @@ module.exports = function (config) {
     proxies: {
       '/jspm_packages': '/base/jspm_packages',
       '/compiled-tests': '/base/compiled-tests/',
-      '/': '/base/build/'
+      '/base': '/base/build/'
     },
     // list of files to exclude
     exclude: [],

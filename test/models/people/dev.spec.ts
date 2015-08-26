@@ -1,5 +1,4 @@
 import {Dev} from 'models/people/dev';
-import * as $ from 'jquery';
 
 let expect = chai.expect;
 describe('Tests for the dev',function(){
